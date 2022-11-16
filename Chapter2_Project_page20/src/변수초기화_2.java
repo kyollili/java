@@ -1,0 +1,27 @@
+/*
+ * char(문자를 저장하는 메모리의 크기)->2byte(-~65535)=>Unicode
+ * 초기값 설정 : 'A'==>모든 문자는 번호를 가지고 있다
+ * 					실제 저장==>숫자가 저장이 된다
+ * 					'A'==>65
+ * 					===>100001
+ * 			초기값을 적용 : ''(오류)
+ * 			===> char는 연산처리시 숫자로 변경이 된다
+ * 			'A'+1
+ * 			------	
+ * 			65+1==>66==>정수형으로 취급될 수 있다
+ * 실수 초기화
+ * float f=10.5;==>오류==>float f=10.5f(F)
+ */
+public class 변수초기화_2 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		System.out.println('A');
+		System.out.println((int)'A');
+		//System.out.println(0b100001);
+		//System.out.println(Integer.toBinaryString((int)'A'));
+		char c=' ';//char c=''; 작은 따옴표 사이에 공백 없으면 오류
+
+	}
+
+}
