@@ -1,19 +1,20 @@
 package com.sist.io;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
-// 빅데이터를 저장할 때 => 분석, 마이닝 => 아파치로그
+// 빅데이터를 저장할때 => 분석 , 마이닝 => 아파치로그 
 /*
- * 		Serializable : 직렬화 (Object 자체)
- * 		transient : 직렬화 제외
- * 		synchronized : 동기화
- * 		---------------------------면접 => 동작이 멈추면 어떻게 해결할 것인가? => 뮤텍스, 세마포아
+ *    Serializable : 직렬화 (Object자체)
+ *    transient : 직렬화 제외 
+ *    synchronized : 동기화 
+ *    -------------------- 면접 => 동작이 멈추면 어떤 해결할 것인가? => 뮤텍스 , 세마포아 
  */
 class Student implements Serializable
 {
 	private int hakbun;
 	private String name;
 	transient private String subject;
-	//직렬화에서 제외 -> subject 뺴고 나머지만 저장
+	// 직렬화에서 제외 
 	private int kor,eng,math;
 	public int getHakbun() {
 		return hakbun;
@@ -52,7 +53,6 @@ class Student implements Serializable
 		this.math = math;
 	}
 	public Student(int hakbun, String name, String subject, int kor, int eng, int math) {
-	
 		this.hakbun = hakbun;
 		this.name = name;
 		this.subject = subject;
@@ -60,40 +60,40 @@ class Student implements Serializable
 		this.eng = eng;
 		this.math = math;
 	}
-	public Student() {} //매개변수가 있는 생성자가 나오면 디폴트 생성자를 만들어야함
+	public Student() {}
 	
 }
 class School{
 	private static ArrayList<Student> list=new ArrayList<>();
-	
+	// 메뉴 
 	/*static
 	{
-		list.add(new Student(1,"홍길동","수학과",80,90,78));
-		list.add(new Student(2,"김두한","수학과",85,92,70));
-		list.add(new Student(3,"박문수","수학과",86,93,60));
+		list.add(new Student(1, "홍길동", "수학과", 80, 90, 78));
+		list.add(new Student(2, "김두한", "수학과", 85, 92, 70));
+		list.add(new Student(3, "박문수", "수학과", 86, 93, 60));
 		try
 		{
 			ObjectOutputStream oos=
 					new ObjectOutputStream(new FileOutputStream("c:\\java_data\\student.txt"));
 			oos.writeObject(list);
 			oos.close();
-		}catch(Exception ex) {}
+		}catch(Exception ex){}
 	}*/
-	// 메뉴
+	// 메뉴 
 	public int menu()
 	{
 		Scanner scan=new Scanner(System.in);
-		System.out.println("===== 학생 관리 메뉴 =====");
-		System.out.println("1. 목록보기");
-		System.out.println("2. 상세보기");
-		System.out.println("3. 검색");
-		System.out.println("4. 학생 등록");
-		System.out.println("5. 종료");
-		System.out.println("=======================");
+		System.out.println("===== 학생관리 메뉴 =====");
+		System.out.println("1.목록보기");
+		System.out.println("2.상세보기");
+		System.out.println("3.검색");
+		System.out.println("4.학생등록");
+		System.out.println("5.종료");
+		System.out.println("=====================");
 		System.out.print("메뉴 선택:");
 		return scan.nextInt();
 	}
-	// 학생 저장
+	// 학생 저장 
 	public void studentSave(Student s)
 	{
 		list.add(s);
@@ -103,9 +103,9 @@ class School{
 					new ObjectOutputStream(new FileOutputStream("c:\\java_data\\student.txt"));
 			oos.writeObject(list);
 			oos.close();
-		}catch(Exception ex) {}
+		}catch(Exception ex){}
 	}
-	// 학생 목록
+	// 학생 목록 
 	public ArrayList<Student> studentListData()
 	{
 		try
@@ -113,12 +113,12 @@ class School{
 			ObjectInputStream ois=
 					new ObjectInputStream(new FileInputStream("c:\\java_data\\student.txt"));
 			list=(ArrayList<Student>)ois.readObject();
-			// 컬렉션의 형변환 ==> 제네릭스까지 포함
+			// 컬렉션의 형변환 ==> 제네릭스까지 포함 
 			ois.close();
-		}catch(Exception ex) {}
+		}catch(Exception ex){}
 		return list;
 	}
-	// 학생 상세보기
+	// 학생 상세보기 
 	public Student studentDetailData(int hakbun)
 	{
 		Student s=new Student();
@@ -132,7 +132,7 @@ class School{
 		}
 		return s;
 	}
-	// 학생 찾기
+	// 학생 찾기 
 	public ArrayList<Student> studentFindData(String name)
 	{
 		ArrayList<Student> sList=new ArrayList<Student>();
@@ -140,13 +140,12 @@ class School{
 		{
 			if(ss.getName().contains(name))
 			{
-				
+				sList.add(ss);
 			}
 		}
 		return sList;
-		
 	}
-	// 종료 => 파일에 저장
+	// 종료 => 파일에 저장 
 	public void exit()
 	{
 		try
@@ -155,8 +154,8 @@ class School{
 					new ObjectOutputStream(new FileOutputStream("c:\\java_data\\student.txt"));
 			oos.writeObject(list);
 			oos.close();
-			System.out.println("저장 완료");
-			//웹 => 장바구니 ==> Cookie 
+			System.out.println("저장 완료!!");
+			// 웹 => 장바구니 ==> Cookie (최근 방문)
 		}catch(Exception ex) {}
 	}
 	// ArrayList(제어) ==> 종료시 저장
@@ -168,102 +167,109 @@ class School{
 			int m=menu();
 			switch(m)
 			{
-				case 1: //목록보기
-				{
-					ArrayList<Student> sList=studentListData();
-					for(Student s:sList)
-					{
-						System.out.println(s.getHakbun()+" "+s.getName()+" "
-								+s.getKor()+" "+s.getEng()+" "+s.getMath()+" "
-								+(s.getKor()+s.getEng()+s.getMath())+" "
-								+String.format("%.2f",(s.getKor()+s.getEng()+s.getMath())/3.0 ));
-					}
-				}
-				break;
-				case 2: //상세보기
-				{
-					Scanner scan=new Scanner(System.in);
-					String hak="";
-					for(Student s:list)
-					{
-						hak+=s.getHakbun()+",";
-					}
-					hak=hak.substring(0,hak.lastIndexOf(","));
-					System.out.print(hak+"중에 한 개를 선택하세요:");
-					int i=scan.nextInt();
-					Student ss=studentDetailData(i);
-					System.out.println("===== 상세보기 =====");
-					System.out.println("학번:"+ss.getHakbun());
-					System.out.println("이름:"+ss.getName());
-					System.out.println("국어:"+ss.getKor());
-					System.out.println("영어:"+ss.getEng());
-					System.out.println("수학:"+ss.getMath());
-				}
-				break;
-				case 3: // 검색
-				{
-					Scanner scan=new Scanner(System.in);
-					System.out.print("검색어 입력:");
-					String name=scan.next();
-					ArrayList<Student> sList=studentFindData(name);
-					System.out.println("===== 검색 결과 =====");
-					for(Student s:sList)
-					{
-						System.out.println(s.getHakbun()+" "+s.getName()+" "
-								+s.getKor()+" "+s.getEng()+" "+s.getMath()+" "
-								+(s.getKor()+s.getEng()+s.getMath())+" "
-								+String.format("%.2f",(s.getKor()+s.getEng()+s.getMath())/3.0 ));
-					}
-				}
-				break;
-				case 4: // 추가
-				{
-					Scanner scan=new Scanner(System.in);
-					int max=0;
-					// Sequence : 자동 증가 번호
-					for(Student s:list)
-					{
-						if(s.getHakbun()>max)
-							max=s.getHakbun();
-					}
-					
-					Student s=new Student();
-					s.setHakbun(max+1);
-					
-					System.out.print("이름 입력:");
-					s.setName(scan.next());
-					System.out.print("국어 입력:");
-					s.setKor(scan.nextInt());
-					System.out.print("영어 입력:");
-					s.setEng(scan.nextInt());
-					System.out.print("수학 입력:");
-					s.setMath(scan.nextInt());
-					
-					studentSave(s);
-					
-				}
-				break;
-				case 5: //종료
-				{
-					exit();
-					System.out.println("프로그램 종료");
-					System.exit(0);
-					
-				}
-				default:
-				{
-					System.out.println("메뉴가 없습니다");
-				}
+			  case 1: // 목록보기
+			  {
+				  ArrayList<Student> sList=studentListData();
+				  for(Student s:sList)
+				  {
+					  System.out.println(s.getHakbun()+" "
+							  +s.getName()+" "
+							  +s.getKor()+" "
+							  +s.getEng()+" "
+							  +s.getMath()+" "
+							  +(s.getKor()+s.getEng()+s.getMath())+" "
+							  +String.format("%.2f", (s.getKor()+s.getEng()+s.getMath())/3.0));
+				  }
+			  }
+			  break;
+			  case 2: // 상세보기
+			  {
+				  Scanner scan=new Scanner(System.in);
+				  String hak="";
+				  for(Student s:list)
+				  {
+					  hak+=s.getHakbun()+",";
+				  }
+				  hak=hak.substring(0,hak.lastIndexOf(","));
+				  System.out.print(hak+"중에 한개를 선택하세요:");
+				  int i=scan.nextInt();
+				  Student ss=studentDetailData(i);
+				  System.out.println("===== 상세보기 =====");
+				  System.out.println("학번:"+ss.getHakbun());
+				  System.out.println("이름:"+ss.getName());
+				  System.out.println("국어:"+ss.getKor());
+				  System.out.println("영어:"+ss.getEng());
+				  System.out.println("수학:"+ss.getMath());
+			  }
+			  break;
+			  case 3: // 검색 
+			  {
+				  Scanner scan=new Scanner(System.in);
+				  System.out.print("검색어 입력:");
+				  String name=scan.next();
+				  ArrayList<Student> sList=studentFindData(name);
+				  System.out.println("===== 검색 결과 =====");
+				  for(Student s:sList)
+				  {
+					  System.out.println(s.getHakbun()+" "
+							  +s.getName()+" "
+							  +s.getKor()+" "
+							  +s.getEng()+" "
+							  +s.getMath()+" "
+							  +(s.getKor()+s.getEng()+s.getMath())+" "
+							  +String.format("%.2f", (s.getKor()+s.getEng()+s.getMath())/3.0));
+				  }
+			  }
+			  break;
+			  case 4: // 추가 
+			  {
+				  Scanner scan=new Scanner(System.in);
+				  int max=0;
+				  // Sequence : 자동 증가번호 (오라클) 
+				  for(Student s:list)
+				  {
+					  if(s.getHakbun()>max)
+						  max=s.getHakbun();
+				  }
+				  
+				  Student s=new Student();
+				  s.setHakbun(max+1);
+				  
+				  System.out.print("이름 입력:");
+				  s.setName(scan.next());
+				  System.out.print("국어 입력:");
+				  s.setKor(scan.nextInt());
+				  System.out.print("영어 입력:");
+				  s.setEng(scan.nextInt());
+				  System.out.print("수학 입력:");
+				  s.setMath(scan.nextInt());
+				  
+				  studentSave(s);
+				  
+			  }
+			  break;
+			  case 5:
+			  {
+				  exit();
+				  System.out.println("프로그램 종료");
+				  System.exit(0);
+				  
+			  }
+			  default:
+			  {
+				  System.out.println("메뉴가 없습니다!!");
+			  }
 			}
 		}
 	}
 }
+
 public class MainClass_ObjectOutputStream {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		School s=new School();
-		s.process();
+        School s=new School();
+        s.process();
 	}
 
 }
